@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SAC Style Redesign</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="icon" type="image/png" href="../icon-192.png" />
+  <link rel="apple-touch-icon" href="../icon-512-maskable.png" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#b45309" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#f59e0b" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress">
+    <div class="reading-progress-bar" id="readingProgress"></div>
+  </div>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-inner container">
+      <div class="topbar-tag">
+        <span>双月刊</span>
+        <span>ISSN 0253-4967</span>
+      </div>
+      <div class="topbar-right">
+        <span>CN 11-2192/P</span>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换主题">◐</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner container">
+      <a href="#" class="logo">
+        <span class="logo-mark">震</span>
+        <span>地震地质</span>
+      </a>
+      <button class="menu-toggle" aria-label="切换菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav" id="primary-nav">
+        <a href="#profile">期刊介绍</a>
+        <a href="#earth">地球科学</a>
+        <a href="#knowledge">科学知识</a>
+        <a href="#geology">地质构造</a>
+        <a href="#volcano">火山研究</a>
+        <a href="#methods">研究方法</a>
+        <a href="#cases">案例研究</a>
+        <a href="#quiz">科普问答</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <p class="hero-kicker">中国地震局主管 · 创刊于 1979 年</p>
+      <h1 class="hero-title">探秘<em>《地震地质》</em></h1>
+      <p class="hero-lead">
+        覆盖地震学、地质构造、火山研究等领域的前沿学术期刊，汇聚地球科学领域的重要科研成果与最新发现。
+      </p>
+      <svg class="seismograph" viewBox="0 0 700 60" preserveAspectRatio="none">
+        <line x1="0" y1="55" x2="700" y2="55" stroke="var(--border)" stroke-width="1" />
+        <polyline id="seismoLine" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">1979</span>
+          <span class="stat-label">创刊年份</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">EI</span>
+          <span class="stat-label">国际收录</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">T1</span>
+          <span class="stat-label">高质量期刊</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">45+</span>
+          <span class="stat-label">载誉历程</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journal Profile Section -->
+  <section class="section" id="profile">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第一课 · 认识期刊</p>
+          <h2 class="section-title"><em>《地震地质》</em>是怎样一本期刊？</h2>
+        </div>
+      </div>
+      <p class="section-body">
+        《地震地质》是由中国地震局主管、中国地震局地质研究所主办的地球科学类学术期刊，创刊于1979年，致力于报道地震科学、地质构造、火山研究等领域的前沿成果。
+      </p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">📬</div>
+          <h3>主管 / 主办</h3>
+          <div class="card-value">中国地震局</div>
+          <p>中国地震局地质研究所主办，立足国内，面向国际，传播地震地质领域最新研究成果。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📅</div>
+          <h3>创刊与周期</h3>
+          <div class="card-value">1979 → 双月刊</div>
+          <p>1979年创刊，现为双月刊，逢双月出版，全年6期，每期集中发表优质学术论文。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <h3>刊号信息</h3>
+          <div class="card-value">CN / ISSN</div>
+          <p>国内统一刊号 CN 11-2192/P，国际标准刊号 ISSN 0253-4967，国内外公开发行。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">✓</div>
+          <h3>办刊宗旨</h3>
+          <div class="card-value">创新 · 育人</div>
+          <p>促进地震地质领域学术交流，培养青年科技人才，推动地球科学基础研究与实践应用。</p>
+        </div>
+      </div>
+
+      <!-- Badge Section -->
+      <div class="badge-section">
+        <div class="badge-label">收录数据库</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>CSCD 核心库</span>
+          <span class="badge-pill"><span class="dot"></span>EI 工程索引</span>
+          <span class="badge-pill"><span class="dot"></span>北大核心</span>
+          <span class="badge-pill"><span class="dot"></span>中国科技核心</span>
+          <span class="badge-pill no"><span class="dot"></span>SCI 未收录</span>
+        </div>
+      </div>
+
+      <!-- Timeline Section -->
+      <div class="timeline-section">
+        <div class="badge-label">期刊荣誉时间线</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">1992</div>
+            <div class="timeline-title">全国优秀科技期刊评比 三等奖</div>
+            <div class="timeline-detail">同时获北京优秀科技期刊"四通奖"</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">1996</div>
+            <div class="timeline-title">国家地震局第二届科技期刊评比 二等奖</div>
+            <div class="timeline-detail"></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">1997</div>
+            <div class="timeline-title">第二届全国优秀科技期刊评比 三等奖</div>
+            <div class="timeline-detail"></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2001</div>
+            <div class="timeline-title">进入中国期刊方阵 · "双效期刊"</div>
+            <div class="timeline-detail"></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2009+</div>
+            <div class="timeline-title">多次获中国精品科技期刊等荣誉</div>
+            <div class="timeline-detail"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Earth Structure Section -->
+  <section class="section" id="earth">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第二课 · 大地的构造</p>
+          <h2 class="section-title">地球里面<em>长什么样？</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        从地表到地心，地球由不同性质的圈层构成。点击下方的地球剖面图或图例按钮，逐一了解每一层的厚度、状态与物质组成。
+      </p>
+
+      <div class="earth-panel">
+        <div class="earth-diagram-wrap">
+          <svg class="earth-diagram" viewBox="0 0 300 300">
+            <!-- Layer rings (outer to inner) -->
+            <circle class="layer-ring" data-layer="crust" cx="150" cy="150" r="145" fill="none" stroke="var(--accent)" stroke-width="10" />
+            <circle class="layer-ring" data-layer="upper" cx="150" cy="150" r="125" fill="none" stroke="#d97706" stroke-width="25" />
+            <circle class="layer-ring" data-layer="lower" cx="150" cy="150" r="95" fill="none" stroke="#92400e" stroke-width="30" />
+            <circle class="layer-ring" data-layer="outer" cx="150" cy="150" r="60" fill="#fbbf24" stroke="none" />
+            <circle class="layer-ring" data-layer="inner" cx="150" cy="150" r="25" fill="#f59e0b" stroke="none" />
+            <!-- Crosshair lines -->
+            <line x1="0" y1="150" x2="300" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4" opacity="0.5" />
+            <line x1="150" y1="0" x2="150" y2="300" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4" opacity="0.5" />
+          </svg>
+
+          <div class="earth-legend">
+            <button class="leg-item active" data-layer="crust">地壳</button>
+            <button class="leg-item" data-layer="upper">上地幔</button>
+            <button class="leg-item" data-layer="lower">下地幔</button>
+            <button class="leg-item" data-layer="outer">外核</button>
+            <button class="leg-item" data-layer="inner">内核</button>
+          </div>
+        </div>
+
+        <div class="earth-info" id="earthInfo">
+          <h3 id="layerName">地壳</h3>
+          <div class="layer-stats" id="layerStats">
+            <div class="stat-row">
+              <span>厚度</span>
+              <span>5–70 km</span>
+            </div>
+            <div class="stat-row">
+              <span>状态</span>
+              <span>固态</span>
+            </div>
+            <div class="stat-row">
+              <span>主要成分</span>
+              <span>硅铝层、硅镁层</span>
+            </div>
+          </div>
+          <p class="layer-desc" id="layerDesc">地壳是地球最外层的固体岩石圈层，分为洋壳与陆壳。大陆地壳较厚，平均约35公里；大洋地壳较薄，仅约5–10公里。地壳岩石以硅铝层和硅镁层为主，承载着我们所熟知的一切地表景观。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seismic Wave Demo Section -->
+  <section class="section" id="knowledge">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第三课 · 断层与地震</p>
+          <h2 class="section-title">地震是怎么<em>发生的？</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        地震发生时，能量以地震波的形式从震源向四周传播。不同类型的波速度、传播方式各不相同，造成的影响也有差异。点击下方按钮，观察三种主要地震波的振动形态。
+      </p>
+
+      <div class="wave-panel">
+        <div class="wave-controls">
+          <button class="wave-btn" data-wave="p">P 波（纵波）</button>
+          <button class="wave-btn" data-wave="s">S 波（横波）</button>
+          <button class="wave-btn" data-wave="surface">面波</button>
+          <button class="wave-btn stop" data-wave="stop">停止</button>
+        </div>
+        <canvas id="waveCanvas" width="800" height="200"></canvas>
+        <div class="wave-legend">
+          <span><span class="swatch swatch-p"></span>P 波：最快（约 6 km/s）</span>
+          <span><span class="swatch swatch-s"></span>S 波：较慢（约 3.5 km/s）</span>
+          <span><span class="swatch swatch-surface"></span>面波：最慢但破坏最强</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Geology Structure Section -->
+  <section class="section" id="geology">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第四课 · 地质构造</p>
+          <h2 class="section-title">岩层的变形：<em>褶皱与断层</em></h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">⛰</div>
+          <h3>褶皱构造</h3>
+          <p>岩层在构造运动作用下，因受力而发生一系列的波状弯曲，这种变形称为褶皱，它是地壳上广泛分布的一种地质构造。</p>
+          <span class="tag">塑性变形</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">↗️</div>
+          <h3>背斜</h3>
+          <p>岩层向上弯曲，中间向上隆起的褶皱，核部由较老的岩层组成，翼部由较新的岩层组成。</p>
+          <span class="tag">向上隆起</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">↘️</div>
+          <h3>向斜</h3>
+          <p>岩层向下弯曲，中间向下凹陷的褶皱，核部由较新的岩层组成，翼部由较老的岩层组成。</p>
+          <span class="tag">向下凹陷</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">➖</div>
+          <h3>节理与断层</h3>
+          <p>岩层受力超过强度极限时发生断裂，没有明显位移的称为节理，有明显位移的称为断层。</p>
+          <span class="tag">脆性变形</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Volcano Section -->
+  <section class="section" id="volcano">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第五课 · 火山学</p>
+          <h2 class="section-title">地球的<em>火热内心</em></h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🌋</div>
+          <h3>火山结构</h3>
+          <div class="card-value">多圈层构成</div>
+          <p>典型火山由火山锥、火山口、火山通道、岩浆房等部分组成，岩浆通过通道上升到达地表形成火山喷发。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🪨</div>
+          <h3>岩浆类型</h3>
+          <div class="card-value">硅含量决定</div>
+          <p>基性岩浆（低硅，如玄武岩）流动性好，酸性岩浆（高硅，如流纹岩）黏稠易爆，中性岩浆介于两者之间。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💥</div>
+          <h3>喷发类型</h3>
+          <div class="card-value">从宁静到剧烈</div>
+          <p>夏威夷式（宁静熔岩流）、斯特龙博利式（温和爆发）、普林尼式（剧烈爆发，如庞贝火山）。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏔</div>
+          <h3>火山形态</h3>
+          <div class="card-value">多样的外观</div>
+          <p>盾状火山（坡度小，如夏威夷）、复式火山（层状，如富士山）、火山渣锥（小而陡）。</p>
+        </div>
+      </div>
+
+      <div class="badge-section">
+        <div class="badge-label">火山活动与地球系统</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>背斜储油气</span>
+          <span class="badge-pill"><span class="dot"></span>向斜储水</span>
+          <span class="badge-pill"><span class="dot"></span>断层带地震</span>
+          <span class="badge-pill"><span class="dot"></span>矿产富集</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Methods Section -->
+  <section class="section" id="methods">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第六课 · 科学家如何研究</p>
+          <h2 class="section-title"><em>《地震地质》</em>里的研究武器</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">⊛</div>
+          <h3>InSAR 卫星干涉雷达</h3>
+          <p>用卫星发射的雷达波，两次过境同一地区的相位差，能测出地表毫米级的形变。汶川、玉树等地震后的地表变化就是这样被"拍"出来的。</p>
+          <span class="tag">测量精度：毫米级</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⊚</div>
+          <h3>GPS 大地测量</h3>
+          <p>在断层两侧布设 GPS 连续观测站，长期记录坐标变化，揭示板块的缓慢蠕动与应变积累，是地震预测研究的重要数据源。</p>
+          <span class="tag">连续监测</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⛛</div>
+          <h3>探槽与古地震研究</h3>
+          <p>横跨断层挖一道深沟（探槽），观察沉积层中被错断的痕迹，可以回溯几千甚至几万年前发生过的古地震，建立断层的"地震档案"。</p>
+          <span class="tag">回溯万年历史</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">♤</div>
+          <h3>新年代学测年</h3>
+          <p>用 ¹⁴C（碳-14）、光释光（OSL）、宇宙成因核素等方法，给断层活动或沉积物"测定年龄"，回答"这件事发生在多少年前"。</p>
+          <span class="tag">精确定年</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Classic Cases Section -->
+  <section class="section" id="cases">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第七课 · 经典案例</p>
+          <h2 class="section-title">那些被期刊<em>重点关注的地震</em></h2>
+        </div>
+      </div>
+
+      <div class="case-nav">
+        <button class="case-btn active" data-case="0">2008 汶川 <em>M</em>8.0</button>
+        <button class="case-btn" data-case="1">2001 昆仑山 <em>M</em>8.1</button>
+        <button class="case-btn" data-case="2">2011 日本 <em>M</em>9.0</button>
+      </div>
+
+      <div class="case-panel active" data-panel="0">
+        <div class="case-visual">
+          <div class="magnitude-display">
+            <div class="mag-num"><em>M</em>8.0</div>
+            <div class="mag-label">矩震级</div>
+          </div>
+          <p class="note">2008 年 5 月 12 日，四川汶川发生 8.0 级特大地震，是新中国成立以来破坏性最强的地震之一。</p>
+        </div>
+        <div class="case-info">
+          <h3>汶川地震 · 龙门山断裂带</h3>
+          <p class="meta">2008.05.12 · 四川省阿坝州汶川县</p>
+          <ul>
+            <li>发震断裂为龙门山中央断裂，属逆冲型破裂</li>
+            <li>破裂带长约 300 公里，最大同震位移约 5 米</li>
+            <li>触发大量滑坡、堰塞湖等次生地质灾害</li>
+            <li>《地震地质》刊出多篇同震形变与破裂过程研究</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-panel" data-panel="1">
+        <div class="case-visual">
+          <div class="magnitude-display">
+            <div class="mag-num"><em>M</em>8.1</div>
+            <div class="mag-label">矩震级</div>
+          </div>
+          <p class="note">2001 年 11 月 14 日，昆仑山口西发生 8.1 级地震，是中国大陆近 50 年来最大的地震事件之一。</p>
+        </div>
+        <div class="case-info">
+          <h3>昆仑山口地震 · 库赛湖断裂</h3>
+          <p class="meta">2001.11.14 · 青海省昆仑山口西</p>
+          <ul>
+            <li>发震断裂为东昆仑断裂带库赛湖段，左旋走滑型</li>
+            <li>地表破裂带长约 426 公里，最大位移约 7 米</li>
+            <li>发生在人烟稀少地区，损失较小但科学价值极高</li>
+            <li>是研究大陆内部走滑断裂运动的经典案例</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-panel" data-panel="2">
+        <div class="case-visual">
+          <div class="magnitude-display">
+            <div class="mag-num"><em>M</em>9.0</div>
+            <div class="mag-label">矩震级</div>
+          </div>
+          <p class="note">2011 年 3 月 11 日，日本东北近海发生 9.0 级巨震，引发巨大海啸并导致福岛核事故。</p>
+        </div>
+        <div class="case-info">
+          <h3>东日本大地震 · 板块俯冲带</h3>
+          <p class="meta">2011.03.11 · 日本东北近海</p>
+          <ul>
+            <li>太平洋板块向日本海沟俯冲引发的巨型逆冲事件</li>
+            <li>破裂区长达 500 公里，最大同震滑移约 50 米</li>
+            <li>触发最高约 40 米的海啸，造成严重人员伤亡</li>
+            <li>推动全球对俯冲带巨型地震的重新评估与研究</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Section -->
+  <section class="section" id="quiz">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第九课 · 检验成果</p>
+          <h2 class="section-title">你掌握了<em>多少？</em></h2>
+        </div>
+      </div>
+
+      <div class="quiz-wrap">
+        <div class="quiz-progress"></div>
+        <div id="quizArea"></div>
+        <div class="quiz-result" id="quizResult">
+          <div class="score"></div>
+          <p></p>
+          <button type="button">再来一次</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">《地震地质》</div>
+          <p class="footer-tagline">面向高中生的地球科学科普教学课件，带你看懂地震、地质与火山的奥秘。</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">快速链接</div>
+          <div class="footer-links">
+            <a href="#profile">期刊介绍</a>
+            <a href="#earth">地球科学</a>
+            <a href="#knowledge">科学知识</a>
+            <a href="#geology">地质构造</a>
+            <a href="#volcano">火山研究</a>
+            <a href="#methods">研究方法</a>
+            <a href="#cases">案例研究</a>
+            <a href="#quiz">科普问答</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">外部资源</div>
+          <div class="footer-links">
+            <a href="https://www.dzdz.ac.cn" target="_blank" rel="noopener noreferrer">期刊官网</a>
+            <a href="mailto:dzdz@ies.ac.cn">联系编辑部</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mega">地震地质</div>
+
+      <div class="footer-bottom">
+        <span>本页面为面向高中生的科普教学课件</span>
+        <span>ISSN 0253-4967 · CN 11-2192/P</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
+</body>
+</html>

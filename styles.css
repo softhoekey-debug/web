@@ -1,0 +1,1384 @@
+/* ============================================================ */
+/*  SAC Style – 地震地质 科普微网站                               */
+/*  重构版：阴影体系 · 深色模式调优 · HiDPI · 现代布局           */
+/* ============================================================ */
+
+/* --------------------------------------------- */
+/*  1. CSS Variables —— Light Mode Defaults       */
+/* --------------------------------------------- */
+:root {
+  /* ---- 颜色系统 ---- */
+  --bg:                #ffffff;
+  --surface:           #fafafa;
+  --fg:                #171717;
+  --muted:             #737373;
+  --border:            #e5e5e5;
+  --accent:            #b45309;
+  --accent-soft:       color-mix(in srgb, var(--accent) 12%, transparent);
+
+  /* 阴影层级（学术级微浮雕） */
+  --shadow-sm:         0 1px 2px  rgba(0,0,0,0.04);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:         0 12px 32px rgba(0,0,0,0.10);
+  --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.10);
+
+  /* 地球圈层色板（语义化变量，深色模式可独立调优） */
+  --earth-crust:       #b45309;
+  --earth-upper:       #d97706;
+  --earth-lower:       #92400e;
+  --earth-outer:       #fbbf24;
+  --earth-inner:       #f59e0b;
+
+  /* 地震波波形颜色（独立变量，可微调对比度） */
+  --wave-p:            var(--accent);
+  --wave-s:            #d97706;
+  --wave-surface:      #92400e;
+
+  /* ---- 间距 ---- */
+  --space-xs:          0.25rem;
+  --space-sm:          0.5rem;
+  --space-md:          1rem;
+  --space-lg:          1.5rem;
+  --space-xl:          2rem;
+  --space-2xl:         3rem;
+  --space-3xl:         4rem;
+
+  /* ---- 圆角 ---- */
+  --radius-sm:         4px;
+  --radius-md:         8px;
+  --radius-lg:         12px;
+
+  /* ---- 字体 ---- */
+  --font-display:      system-ui, -apple-system, BlinkMacSystemFont,
+                       "Segoe UI", Roboto, sans-serif;
+  --font-body:         system-ui, -apple-system, BlinkMacSystemFont,
+                       "Segoe UI", Roboto, sans-serif;
+  --font-mono:         ui-monospace, "SF Mono", Menlo, Monaco,
+                       "Cascadia Code", "JetBrains Mono", monospace;
+
+  /* ---- 过渡基准 ---- */
+  --ease-out:          cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:       cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:          0.15s;
+  --dur-normal:        0.25s;
+  --dur-slow:          0.35s;
+}
+
+/* --------------------------------------------- */
+/*  2. Dark Mode —— 圈层色彩精细调优               */
+/* --------------------------------------------- */
+:root[data-theme="dark"] {
+  --bg:                #0a0a0a;
+  --surface:           #141414;
+  --fg:                #f0f0f0;
+  --muted:             #a0a0a0;
+  --border:            #2a2a2a;
+  --accent:            #f59e0b;
+  --accent-soft:       color-mix(in srgb, var(--accent) 10%, transparent);
+
+  /* 阴影在深色背景下加黑 */
+  --shadow-sm:         0 1px 2px  rgba(0,0,0,0.20);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.30);
+  --shadow-lg:         0 12px 32px rgba(0,0,0,0.40);
+  --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.40);
+
+  /* 深色模式下提高圈层饱和度和亮度 */
+  --earth-crust:       #e87d1e;
+  --earth-upper:       #ef9720;
+  --earth-lower:       #b8551a;
+  --earth-outer:       #facc15;
+  --earth-inner:       #f59e0b;
+
+  /* 波形颜色 */
+  --wave-p:            var(--accent);
+  --wave-s:            #ef9720;
+  --wave-surface:      #b8551a;
+}
+
+/* --------------------------------------------- */
+/*  3. CSS Reset                                  */
+/* --------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------- */
+/*  4. Base Typography                            */
+/* --------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--fg);
+}
+
+h1 { font-size: 2.5rem; margin-bottom: var(--space-md); }
+h2 { font-size: 1.75rem; margin-bottom: var(--space-sm); }
+h3 { font-size: 1.25rem; margin-bottom: var(--space-sm); }
+p  { margin-bottom: var(--space-md); }
+
+/* --------------------------------------------- */
+/*  5. Layout Helpers                             */
+/* --------------------------------------------- */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+/* --------------------------------------------- */
+/*  6. Sections                                   */
+/* --------------------------------------------- */
+section {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+  border-bottom: 1px solid var(--border);
+}
+section:last-child {
+  border-bottom: none;
+}
+
+/* --------------------------------------------- */
+/*  7. Academic Card System —— 显式阴影与微悬浮    */
+/* --------------------------------------------- */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color var(--dur-normal) var(--ease-out),
+    box-shadow   var(--dur-normal) var(--ease-out),
+    transform    var(--dur-normal) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+/* --------------------------------------------- */
+/*  8. Hero Section                               */
+/* --------------------------------------------- */
+.hero {
+  padding: var(--space-3xl) 0 var(--space-2xl);
+  text-align: center;
+}
+
+.hero-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: var(--space-md);
+}
+
+.hero-title {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-lg);
+  line-height: 1.1;
+}
+
+.hero-title em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.hero-lead {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+  line-height: 1.7;
+}
+
+.seismograph {
+  width: 100%;
+  max-width: 700px;
+  height: 60px;
+  margin: 0 auto var(--space-2xl);
+  display: block;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+/* --------------------------------------------- */
+/*  9. Section & Card Grid —— Grid + Flex 强化    */
+/* --------------------------------------------- */
+.section {
+  padding: var(--space-3xl) 0;
+  scroll-margin-top: 4rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-lg);
+}
+
+.section-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: var(--space-sm);
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  max-width: 32rem;
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+.section-title em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.section-body {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 36rem;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  line-height: 1.7;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+.card-grid .card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  margin-bottom: 0;
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color var(--dur-normal) var(--ease-out),
+    box-shadow   var(--dur-normal) var(--ease-out),
+    transform    var(--dur-normal) var(--ease-out);
+}
+
+.card-grid .card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+  color: var(--accent);
+  line-height: 1;
+}
+
+.card-grid .card h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-value {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+  line-height: 1.3;
+}
+
+.card-grid .card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* -- Topbar -- */
+.topbar {
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-xs) 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.topbar-tag { display: flex; gap: var(--space-md); }
+.topbar-right { display: flex; align-items: center; gap: var(--space-md); }
+
+/* -- Header -- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--bg);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* -- Logo -- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--fg);
+}
+.logo:hover { text-decoration: none; }
+
+.logo-mark {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--fg);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+/* -- Nav -- */
+.nav {
+  display: flex;
+  gap: var(--space-lg);
+  font-size: 14px;
+}
+
+.nav a {
+  position: relative;
+  color: var(--muted);
+  text-decoration: none;
+  padding: var(--space-xs) 0;
+  transition: color var(--dur-fast) ease;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+.nav a:hover { color: var(--fg); text-decoration: none; }
+.nav a:hover::after { transform: scaleX(1); }
+
+/* -- Theme Toggle -- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+.theme-toggle:hover {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* -- Menu Toggle (Mobile) -- */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: var(--space-xs);
+}
+.menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--fg);
+  border-radius: 1px;
+  transition: transform var(--dur-normal) var(--ease-out),
+              opacity   var(--dur-normal) var(--ease-out);
+}
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --------------------------------------------- */
+/*  10. Badge & Timeline Components               */
+/* --------------------------------------------- */
+.badge-section { margin-top: var(--space-2xl); }
+
+.badge-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: var(--space-md);
+}
+
+.badge-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--dur-fast) ease;
+  color: var(--fg);
+}
+.badge-pill:hover { border-color: var(--accent); }
+
+.badge-pill .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.badge-pill.no .dot {
+  background-color: transparent;
+  border: 1px solid var(--border);
+}
+.badge-pill.no { color: var(--muted); }
+
+/* -- Timeline -- */
+.timeline-section {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-2xl);
+  border-top: 1px solid var(--border);
+}
+
+.timeline {
+  border-left: 1px solid var(--border);
+  padding-left: var(--space-xl);
+  margin-left: var(--space-sm);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--space-xl);
+}
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-xl) - 4px);
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.timeline-year {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: var(--space-xs);
+}
+
+.timeline-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.timeline-detail {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* --------------------------------------------- */
+/*  11. Earth Panel —— 语义化圈层颜色 + Grid 1.2fr */
+/* --------------------------------------------- */
+.earth-panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.earth-diagram-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.earth-diagram {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
+
+/* 圈层使用 CSS 变量，而非硬编码颜色 */
+.layer-ring[data-layer="crust"] { stroke: var(--earth-crust); }
+.layer-ring[data-layer="upper"] { stroke: var(--earth-upper); }
+.layer-ring[data-layer="lower"] { stroke: var(--earth-lower); }
+.layer-ring[data-layer="outer"] { fill:   var(--earth-outer); stroke: none; }
+.layer-ring[data-layer="inner"] { fill:   var(--earth-inner); stroke: none; }
+
+.layer-ring {
+  cursor: pointer;
+  transition: all var(--dur-slow) var(--ease-out);
+  transform-origin: center;
+}
+.layer-ring:hover { opacity: 0.8; }
+.layer-ring.active { filter: brightness(1.2); stroke-width: 12px; }
+
+.earth-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-top: var(--space-sm);
+}
+
+.leg-item {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--muted);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) ease,
+    color       var(--dur-fast) ease;
+}
+.leg-item.active,
+.leg-item:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.earth-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.layer-stats { margin-bottom: var(--space-lg); }
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.stat-row:last-child { border-bottom: none; }
+
+.stat-row span:first-child {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.stat-row span:last-child { font-weight: 500; }
+
+.layer-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* --------------------------------------------- */
+/*  12. Seismic Wave Panel —— 语义化波形颜色      */
+/* --------------------------------------------- */
+.wave-panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.wave-controls {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-lg);
+}
+
+.wave-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--dur-fast) ease,
+    color       var(--dur-fast) ease;
+}
+.wave-btn:hover,
+.wave-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.wave-btn.stop:hover {
+  border-color: var(--muted);
+  color: var(--muted);
+}
+
+#waveCanvas {
+  width: 100%;
+  height: 200px;
+  background-color: var(--fg);
+  display: block;
+  border-radius: var(--radius-sm);
+}
+
+.wave-legend {
+  display: flex;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: var(--space-md);
+}
+
+.swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+/* 波形色块使用语义化变量 */
+.swatch-p       { background-color: var(--wave-p); }
+.swatch-s       { background-color: var(--wave-s); }
+.swatch-surface { background-color: var(--wave-surface); }
+
+/* --------------------------------------------- */
+/*  13. Tag Component                             */
+/* --------------------------------------------- */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  border: 1px dotted var(--accent);
+  padding: 6px 10px;
+  margin-top: var(--space-md);
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------- */
+/*  14. Case Studies (Tabs & Panels)              */
+/* --------------------------------------------- */
+.case-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.case-btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color     var(--dur-fast) ease,
+    color            var(--dur-fast) ease;
+}
+.case-btn:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.case-btn.active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.case-panel {
+  display: none;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--space-2xl);
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+.case-panel.active {
+  display: grid;
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.case-visual {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  justify-content: center;
+}
+
+.magnitude-display {
+  text-align: center;
+  padding: var(--space-xl) var(--space-2xl);
+  border: 1px dotted var(--border);
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+.magnitude-display .mag-num {
+  font-family: var(--font-mono);
+  font-size: clamp(36px, 8vw, 64px);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+/* 斜体震级符号 M */
+.magnitude-display .mag-num em,
+.case-btn em {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.magnitude-display .mag-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: var(--space-sm);
+}
+
+.case-visual .note {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  text-align: center;
+  max-width: 24rem;
+  margin-bottom: 0;
+}
+
+.case-info h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  line-height: 1.2;
+}
+
+.case-info .meta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: var(--space-lg);
+}
+
+.case-info ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.case-info li {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: var(--space-sm);
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.6;
+}
+.case-info li:last-child { margin-bottom: 0; }
+
+.case-info li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent);
+}
+
+/* --------------------------------------------- */
+/*  15. Quiz Section —— 增强反馈动画与色彩区分     */
+/* --------------------------------------------- */
+.quiz-wrap {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  margin-top: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.quiz-progress {
+  height: 4px;
+  background-color: var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+}
+
+.quiz-progress-bar {
+  height: 100%;
+  background-color: var(--accent);
+  width: 0%;
+  transition: width 0.3s var(--ease-out);
+}
+
+.quiz-q {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: var(--space-lg);
+  line-height: 1.4;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.quiz-option {
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-size: 15px;
+  transition: all var(--dur-fast) var(--ease-out);
+  text-align: left;
+}
+.quiz-option:hover:not(.disabled) { border-color: var(--accent-soft); }
+
+.quiz-option.correct {
+  border-color: var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.quiz-option.wrong {
+  border-color: var(--muted);
+  background-color: color-mix(in srgb, var(--muted) 12%, transparent);
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.quiz-option.disabled { cursor: not-allowed; }
+
+/* ---- 答题反馈动画 ---- */
+.quiz-feedback {
+  margin-top: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  display: none;
+  border-left: 2px solid var(--border);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  background-color: var(--bg);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity    var(--dur-normal) var(--ease-out),
+    transform  var(--dur-normal) var(--ease-out);
+}
+
+.quiz-feedback.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 答对：主题色强调 */
+.quiz-feedback.right {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* 答错：温和暖色警示 */
+.quiz-feedback.wrong {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.quiz-next {
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
+  background-color: var(--fg);
+  color: var(--bg);
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: none;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--dur-fast) ease;
+}
+.quiz-next.show { display: inline-block; }
+.quiz-next:hover { opacity: 0.85; }
+
+/* ---- 结果面板 ---- */
+.quiz-result {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  display: none;
+}
+.quiz-result.show {
+  display: block;
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+.quiz-result .score {
+  font-size: clamp(36px, 8vw, 56px);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.quiz-result p {
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: var(--space-md);
+  margin-bottom: 0;
+}
+
+.quiz-result button {
+  margin-top: var(--space-xl);
+  padding: var(--space-sm) var(--space-lg);
+  background-color: var(--fg);
+  color: var(--bg);
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--dur-fast) ease;
+}
+.quiz-result button:hover { opacity: 0.85; }
+
+/* --------------------------------------------- */
+/*  16. Reading Progress Bar                      */
+/* --------------------------------------------- */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 999;
+  background-color: transparent;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  background-color: var(--accent);
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+/* --------------------------------------------- */
+/*  17. Footer                                    */
+/* --------------------------------------------- */
+.footer {
+  border-top: 1px dotted var(--border);
+  padding: var(--space-3xl) 0 var(--space-xl);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+}
+
+.footer-brand {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  color: var(--fg);
+}
+
+.footer-tagline {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 22rem;
+  margin-bottom: 0;
+}
+
+.footer-col-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: var(--space-md);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 14px;
+  color: var(--fg);
+  transition: color var(--dur-fast) ease;
+}
+.footer-links a:hover { color: var(--accent); }
+
+.footer-mega {
+  font-size: clamp(60px, 14vw, 140px);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  color: var(--muted);
+  opacity: 0.08;
+  text-align: right;
+  margin-top: var(--space-xl);
+  line-height: 1;
+  user-select: none;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-lg);
+  border-top: 1px dotted var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* --------------------------------------------- */
+/*  18. Back to Top Button                        */
+/* --------------------------------------------- */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: var(--bg);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity    var(--dur-normal) ease,
+    visibility var(--dur-normal) ease,
+    transform  var(--dur-normal) ease;
+  z-index: 999;
+}
+.back-to-top.show { opacity: 1; visibility: visible; }
+.back-to-top:hover { opacity: 0.85; }
+.back-to-top:active { transform: scale(0.92); }
+
+/* --------------------------------------------- */
+/*  19. Reduced Motion Preference                 */
+/* --------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reading-progress-bar { transition: none !important; }
+  .case-panel.active,
+  .quiz-feedback.show,
+  .quiz-result.show { animation: none !important; }
+}
+
+/* --------------------------------------------- */
+/*  20. Responsive Breakpoints                    */
+/* --------------------------------------------- */
+
+/* Tablet · ≤ 960px */
+@media (max-width: 960px) {
+  :root {
+    --space-3xl: 3rem;
+    --space-2xl: 2.25rem;
+  }
+  .container { padding: var(--space-xl) var(--space-md); }
+  .hero { padding: var(--space-2xl) 0 var(--space-xl); }
+  .hero-lead { font-size: 16px; }
+  .section { padding: var(--space-2xl) 0; }
+  .card-grid { gap: var(--space-md); }
+  .card-grid .card { padding: var(--space-lg); }
+  .earth-panel,
+  .wave-panel,
+  .case-panel.active,
+  .quiz-wrap { padding: var(--space-xl); }
+  .footer-grid { gap: var(--space-xl); }
+}
+
+/* Mobile · ≤ 768px */
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-width: 200px;
+    padding: var(--space-sm) 0;
+    flex-direction: column;
+    gap: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity    var(--dur-normal) var(--ease-out),
+      transform  var(--dur-normal) var(--ease-out),
+      visibility var(--dur-normal) var(--ease-out);
+    box-shadow: var(--shadow-md);
+    z-index: 200;
+  }
+
+  .nav.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav a {
+    padding: 12px var(--space-lg);
+    border-bottom: 1px dotted var(--border);
+  }
+  .nav a::after { display: none; }
+  .nav a:last-child { border-bottom: none; }
+
+  .header-inner { position: relative; }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .card-grid { grid-template-columns: 1fr; }
+
+  .earth-panel {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .case-panel.active {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    text-align: left;
+  }
+
+  .hero-title { font-size: clamp(1.75rem, 8vw, 2.5rem); }
+  .hero-lead { font-size: 15px; }
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+  .stat-value { font-size: 1.5rem; }
+
+  .topbar-inner {
+    flex-direction: column;
+    gap: var(--space-xs);
+    align-items: flex-start;
+  }
+}
