@@ -29,6 +29,15 @@
   --earth-outer:       #fbbf24;
   --earth-inner:       #f59e0b;
 
+  /* 板块边界示意图专用色板（与圈层色分离，避免语义混淆） */
+  --plate-a:           #c8772f;  /* 板块 A（如洋壳/左侧块体） */
+  --plate-b:           #7d8ca3;  /* 板块 B（如陆壳/右侧块体） */
+  --asthen:            #ecd2ad;  /* 软流圈（塑性） */
+  --ocean:             #5aa9d6;  /* 海水 */
+  --magma:             #e0533d;  /* 上涌岩浆 */
+  --motion:            #0b5fa5;  /* 运动/力箭头 */
+  --fault:             #d6432f;  /* 断层线 */
+
   /* 地震波波形颜色（独立变量，可微调对比度） */
   --wave-p:            var(--accent);
   --wave-s:            #d97706;
@@ -88,6 +97,15 @@
   --earth-lower:       #b8551a;
   --earth-outer:       #facc15;
   --earth-inner:       #f59e0b;
+
+  /* 板块边界示意图专用色板（深色模式提高对比度） */
+  --plate-a:           #d98a3a;
+  --plate-b:           #9fb0c4;
+  --asthen:            #6b5436;
+  --ocean:             #3f7fa8;
+  --magma:             #ff6b4a;
+  --motion:            #5ab0ff;
+  --fault:             #ff7355;
 
   /* 波形颜色 */
   --wave-p:            var(--accent);
@@ -451,22 +469,40 @@ section:last-child {
   font-weight: 400;
 }
 
-/* -- Nav -- */
+/* -- Nav (2-level) -- */
 .nav {
   display: flex;
-  gap: var(--space-lg);
-  font-size: 14px;
+  align-items: center;
 }
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-item { position: relative; }
 
-.nav a {
-  position: relative;
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-family: inherit;
   color: var(--muted);
   text-decoration: none;
-  padding: var(--space-xs) 0;
+  background: none;
+  border: none;
+  padding: var(--space-xs) 2px;
+  cursor: pointer;
   transition: color var(--dur-fast) ease;
 }
+.nav-link:hover { color: var(--fg); text-decoration: none; }
 
-.nav a::after {
+/* 下划线动效（仅一级链接） */
+.nav-item > .nav-link { position: relative; }
+.nav-item > .nav-link::after {
   content: "";
   position: absolute;
   left: 0;
@@ -477,9 +513,66 @@ section:last-child {
   transform: scaleX(0);
   transition: transform var(--dur-normal) var(--ease-out);
 }
+.nav-item:hover > .nav-link::after { transform: scaleX(1); }
 
-.nav a:hover { color: var(--fg); text-decoration: none; }
-.nav a:hover::after { transform: scaleX(1); }
+/* 折叠箭头 */
+.caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  transition: transform var(--dur-fast) ease;
+}
+.nav-item.has-sub:hover > .nav-link .caret,
+.nav-item.has-sub.open > .nav-link .caret { transform: rotate(180deg); }
+
+/* 下拉子菜单（桌面） */
+.nav-sub {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 184px;
+  margin: 0;
+  padding: var(--space-xs) 0;
+  list-style: none;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity    var(--dur-normal) var(--ease-out),
+    transform  var(--dur-normal) var(--ease-out),
+    visibility var(--dur-normal) var(--ease-out);
+  z-index: 300;
+}
+.nav-item.has-sub:hover > .nav-sub,
+.nav-item.has-sub:focus-within > .nav-sub,
+.nav-item.has-sub.open > .nav-sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-sub li { margin: 0; }
+.nav-sub a {
+  display: block;
+  padding: 8px var(--space-lg);
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+.nav-sub a:hover {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  text-decoration: none;
+}
 
 /* -- Theme Toggle -- */
 .theme-toggle {
@@ -1304,14 +1397,12 @@ section:last-child {
   .nav {
     position: absolute;
     top: 100%;
+    left: 0;
     right: 0;
     background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    min-width: 200px;
-    padding: var(--space-sm) 0;
-    flex-direction: column;
-    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-sm) var(--space-md);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -1321,6 +1412,8 @@ section:last-child {
       visibility var(--dur-normal) var(--ease-out);
     box-shadow: var(--shadow-md);
     z-index: 200;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
   }
 
   .nav.open {
@@ -1329,12 +1422,42 @@ section:last-child {
     transform: translateY(0);
   }
 
-  .nav a {
-    padding: 12px var(--space-lg);
-    border-bottom: 1px dotted var(--border);
+  .nav-list { flex-direction: column; align-items: stretch; gap: 0; }
+  .nav-item { border-bottom: 1px dotted var(--border); }
+  .nav-item:last-child { border-bottom: none; }
+
+  .nav-link {
+    width: 100%;
+    justify-content: space-between;
+    padding: 13px 4px;
+    font-size: 15px;
   }
-  .nav a::after { display: none; }
-  .nav a:last-child { border-bottom: none; }
+  .nav-item > .nav-link::after { display: none; }
+
+  /* 移动端：子菜单手风琴展开 */
+  .nav-sub {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    min-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0 0 var(--space-sm);
+    transition: max-height var(--dur-normal) var(--ease-out);
+  }
+  .nav-item.has-sub.open > .nav-sub { max-height: 340px; }
+  .nav-sub a {
+    padding: 11px 16px;
+    font-size: 14px;
+    border-left: 2px solid var(--border);
+    margin-left: 6px;
+  }
+  .nav-sub a:hover { background-color: var(--accent-soft); }
 
   .header-inner { position: relative; }
 
@@ -1381,4 +1504,167 @@ section:last-child {
     gap: var(--space-xs);
     align-items: flex-start;
   }
+}
+
+/* --------------------------------------------- */
+/*  21. Explore Diagrams —— 板块/岩石/年代 通用    */
+/* --------------------------------------------- */
+.explore-diagram {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+}
+
+.diag-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  fill: var(--fg);
+  pointer-events: none;
+}
+
+/* 板块示意图：序号徽标 / 图注 */
+.diag-tag {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--accent);
+  pointer-events: none;
+}
+.diag-caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--muted);
+  pointer-events: none;
+}
+
+/* 交互节点：点击高亮（复用主题色，深色模式自动同步） */
+.explore-node {
+  cursor: pointer;
+  transition:
+    opacity    var(--dur-slow) var(--ease-out),
+    filter     var(--dur-slow) var(--ease-out);
+  transform-origin: center;
+}
+.explore-node:hover { opacity: 0.85; }
+.explore-node.active { filter: brightness(1.12) drop-shadow(0 0 5px var(--accent)); }
+.explore-node:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 移动端：探索器图随栏宽自适应（.earth-panel 已在 ≤768 转单栏） */
+@media (max-width: 768px) {
+  .explore-diagram { max-width: 260px; }
+}
+
+/* --------------------------------------------- */
+/*  21b. IRIS 媒体动画（科普视频嵌入）            */
+/* --------------------------------------------- */
+.media-kicker {
+  display: block;
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.media-figure { margin: 0; }
+.media-figure + .media-figure { margin-top: var(--space-xl); }
+.media-clip {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: #000;
+  box-shadow: var(--shadow-sm);
+}
+.media-caption {
+  max-width: 680px;
+  margin: var(--space-sm) auto 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: center;
+}
+.media-caption a { color: var(--accent); text-decoration: none; }
+.media-caption a:hover { text-decoration: underline; }
+
+/* 地震学基础：两个动画并排 */
+.media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+.media-grid .media-figure { margin-top: 0; }
+.media-grid .media-clip,
+.media-grid .media-caption { max-width: 100%; }
+
+@media (max-width: 768px) {
+  .media-grid { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------- */
+/*  22. Energy Bars —— 震级—能量对比              */
+/* --------------------------------------------- */
+.energy-panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-top: var(--space-2xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.energy-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+.energy-row:last-child { margin-bottom: 0; }
+
+.energy-tag {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  width: 2.5rem;
+  flex-shrink: 0;
+}
+
+.energy-track {
+  flex: 1;
+  height: 14px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.energy-bar {
+  height: 100%;
+  background-color: var(--accent);
+  border-radius: 999px;
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.energy-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  width: 4.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .energy-panel { padding: var(--space-lg); }
+  .energy-num { width: 3.5rem; font-size: 11px; }
 }

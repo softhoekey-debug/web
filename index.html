@@ -44,15 +44,47 @@
         <span></span>
         <span></span>
       </button>
-      <nav class="nav" id="primary-nav">
-        <a href="#profile">期刊介绍</a>
-        <a href="#earth">地球科学</a>
-        <a href="#knowledge">科学知识</a>
-        <a href="#geology">地质构造</a>
-        <a href="#volcano">火山研究</a>
-        <a href="#methods">研究方法</a>
-        <a href="#cases">案例研究</a>
-        <a href="#quiz">科普问答</a>
+      <nav class="nav" id="primary-nav" aria-label="主导航">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#profile" class="nav-link">期刊简介</a>
+          </li>
+          <li class="nav-item has-sub">
+            <button type="button" class="nav-link nav-toggle" aria-haspopup="true" aria-expanded="false">地球与板块<span class="caret" aria-hidden="true"></span></button>
+            <ul class="nav-sub">
+              <li><a href="#earth">大地的构造</a></li>
+              <li><a href="#knowledge">断层与地震</a></li>
+              <li><a href="#plate">板块构造</a></li>
+            </ul>
+          </li>
+          <li class="nav-item has-sub">
+            <button type="button" class="nav-link nav-toggle" aria-haspopup="true" aria-expanded="false">物质与构造<span class="caret" aria-hidden="true"></span></button>
+            <ul class="nav-sub">
+              <li><a href="#rocks">组成地壳的物质</a></li>
+              <li><a href="#geology">地质构造</a></li>
+              <li><a href="#volcano">火山学</a></li>
+            </ul>
+          </li>
+          <li class="nav-item has-sub">
+            <button type="button" class="nav-link nav-toggle" aria-haspopup="true" aria-expanded="false">研究与方法<span class="caret" aria-hidden="true"></span></button>
+            <ul class="nav-sub">
+              <li><a href="#methods">科学家如何研究</a></li>
+              <li><a href="#geophysics">给地球做 CT</a></li>
+              <li><a href="#cases">经典案例</a></li>
+            </ul>
+          </li>
+          <li class="nav-item has-sub">
+            <button type="button" class="nav-link nav-toggle" aria-haspopup="true" aria-expanded="false">地震·年代·灾害<span class="caret" aria-hidden="true"></span></button>
+            <ul class="nav-sub">
+              <li><a href="#seismo">认识一次地震</a></li>
+              <li><a href="#timescale">把时间拉长</a></li>
+              <li><a href="#hazards">塑造地表的力量</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#quiz" class="nav-link">科普问答</a>
+          </li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -465,12 +497,451 @@
     </div>
   </section>
 
+  <!-- ====== 第八课 · 板块构造与地球动力学 ====== -->
+  <section class="section" id="plate">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第八课 · 板块构造</p>
+          <h2 class="section-title">地球表面的<em>拼图与漂移</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        地球的岩石圈并非铁板一块，而是破裂成若干巨大的板块，它们"漂浮"在塑性的软流层之上缓慢移动。板块的分离、碰撞与错动，正是地震、火山与山脉诞生的根源。点击下图或图例，认识三类板块边界。
+      </p>
+
+      <div class="earth-panel">
+        <div class="earth-diagram-wrap">
+          <svg class="explore-diagram" viewBox="0 0 340 376" aria-label="板块边界示意图：①离散边界（洋中脊）②汇聚边界（俯冲带）③转换边界（俯视图）④板块驱动力（地幔对流）">
+            <defs>
+              <marker id="mAuto" markerWidth="12" markerHeight="12" refX="7.5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M1,1 L9,5 L1,9 Z" fill="var(--motion)" />
+              </marker>
+            </defs>
+
+            <!-- ① 离散边界（洋中脊） -->
+            <g class="explore-node active" data-boundary="divergent" tabindex="0" role="button" aria-label="离散边界">
+              <rect x="6" y="4" width="328" height="88" fill="transparent" />
+              <text x="14" y="20" class="diag-tag">①</text>
+              <rect x="8" y="10" width="324" height="26" fill="var(--ocean)" opacity="0.5" />
+              <rect x="8" y="36" width="152" height="34" fill="var(--plate-a)" />
+              <rect x="180" y="36" width="152" height="34" fill="var(--plate-b)" />
+              <path d="M160,36 L170,30 L180,36 Z" fill="var(--plate-a)" />
+              <path d="M160,70 L180,70 L172,48 Z" fill="var(--magma)" />
+              <line x1="172" y1="66" x2="172" y2="50" stroke="var(--magma)" stroke-width="3" marker-end="url(#mAuto)" />
+              <rect x="8" y="70" width="324" height="14" fill="var(--asthen)" />
+              <g fill="var(--fg)" opacity="0.15">
+                <circle cx="40" cy="77" r="1.6" /><circle cx="90" cy="77" r="1.6" /><circle cx="130" cy="77" r="1.6" />
+                <circle cx="210" cy="77" r="1.6" /><circle cx="260" cy="77" r="1.6" /><circle cx="305" cy="77" r="1.6" />
+              </g>
+              <line x1="150" y1="53" x2="114" y2="53" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <line x1="190" y1="53" x2="226" y2="53" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <text x="170" y="90" text-anchor="middle" class="diag-caption">离散边界 · 洋中脊</text>
+            </g>
+
+            <!-- ② 汇聚边界（俯冲带） -->
+            <g class="explore-node" data-boundary="convergent" tabindex="0" role="button" aria-label="汇聚边界">
+              <rect x="6" y="96" width="328" height="88" fill="transparent" />
+              <text x="14" y="112" class="diag-tag">②</text>
+              <rect x="8" y="102" width="190" height="26" fill="var(--ocean)" opacity="0.5" />
+              <rect x="8" y="128" width="188" height="34" fill="var(--plate-a)" />
+              <rect x="8" y="162" width="324" height="14" fill="var(--asthen)" />
+              <path d="M196,128 L214,128 L256,176 L240,176 Z" fill="var(--plate-a)" />
+              <rect x="200" y="118" width="132" height="44" fill="var(--plate-b)" />
+              <path d="M196,128 L200,120 L204,128 Z" fill="var(--ocean)" opacity="0.7" />
+              <path d="M243,118 L255,100 L267,118 Z" fill="var(--plate-b)" />
+              <circle cx="255" cy="100" r="2.6" fill="var(--magma)" />
+              <g fill="var(--fg)" opacity="0.15">
+                <circle cx="40" cy="169" r="1.6" /><circle cx="90" cy="169" r="1.6" /><circle cx="300" cy="169" r="1.6" /><circle cx="320" cy="169" r="1.6" />
+              </g>
+              <line x1="40" y1="146" x2="76" y2="146" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <line x1="300" y1="140" x2="264" y2="140" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <text x="170" y="182" text-anchor="middle" class="diag-caption">汇聚边界 · 俯冲带</text>
+            </g>
+
+            <!-- ③ 转换边界（俯视图） -->
+            <g class="explore-node" data-boundary="transform" tabindex="0" role="button" aria-label="转换边界">
+              <rect x="6" y="188" width="328" height="88" fill="transparent" />
+              <text x="14" y="202" class="diag-tag">③</text>
+              <rect x="8" y="198" width="160" height="70" fill="var(--plate-a)" />
+              <rect x="172" y="198" width="160" height="70" fill="var(--plate-b)" />
+              <line x1="170" y1="198" x2="170" y2="268" stroke="var(--fault)" stroke-width="3" />
+              <line x1="20" y1="234" x2="168" y2="234" stroke="var(--fg)" stroke-width="3" opacity="0.85" />
+              <line x1="172" y1="250" x2="320" y2="250" stroke="var(--fg)" stroke-width="3" opacity="0.85" />
+              <line x1="168" y1="234" x2="172" y2="234" stroke="var(--fg)" stroke-width="2" stroke-dasharray="3 3" opacity="0.5" />
+              <line x1="90" y1="262" x2="90" y2="210" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <line x1="250" y1="210" x2="250" y2="262" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <text x="320" y="206" text-anchor="end" class="diag-tag" style="fill:var(--muted)">俯视</text>
+              <text x="170" y="274" text-anchor="middle" class="diag-caption">转换边界 · 转换断层</text>
+            </g>
+
+            <!-- ④ 板块驱动力（地幔对流） -->
+            <g class="explore-node" data-boundary="drive" tabindex="0" role="button" aria-label="板块驱动力">
+              <rect x="6" y="280" width="328" height="88" fill="transparent" />
+              <text x="14" y="294" class="diag-tag">④</text>
+              <rect x="8" y="300" width="324" height="62" fill="var(--asthen)" opacity="0.45" />
+              <rect x="8" y="286" width="150" height="12" fill="var(--plate-a)" />
+              <rect x="182" y="286" width="150" height="12" fill="var(--plate-b)" />
+              <path d="M160,298 L170,292 L180,298 Z" fill="var(--plate-a)" />
+              <path d="M88,303 A30,30 0 1 0 87.5,303" fill="none" stroke="var(--motion)" stroke-width="2.5" marker-end="url(#mAuto)" />
+              <path d="M252,303 A30,30 0 1 1 251.5,303" fill="none" stroke="var(--motion)" stroke-width="2.5" marker-end="url(#mAuto)" />
+              <line x1="170" y1="360" x2="170" y2="306" stroke="var(--magma)" stroke-width="3" marker-end="url(#mAuto)" />
+              <line x1="60" y1="292" x2="30" y2="292" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <line x1="280" y1="292" x2="310" y2="292" stroke="var(--motion)" stroke-width="3" marker-end="url(#mAuto)" />
+              <text x="170" y="366" text-anchor="middle" class="diag-caption">地幔对流 · 板块驱动力</text>
+            </g>
+          </svg>
+
+          <div class="earth-legend">
+            <button class="leg-item active" data-boundary="divergent">离散边界</button>
+            <button class="leg-item" data-boundary="convergent">汇聚边界</button>
+            <button class="leg-item" data-boundary="transform">转换边界</button>
+            <button class="leg-item" data-boundary="drive">驱动力</button>
+          </div>
+        </div>
+
+        <div class="earth-info" id="plateInfo">
+          <h3 id="plateName">离散边界</h3>
+          <div class="layer-stats" id="plateStats">
+            <div class="stat-row"><span>运动方式</span><span>张裂、背离</span></div>
+            <div class="stat-row"><span>典型地形</span><span>洋中脊、裂谷</span></div>
+            <div class="stat-row"><span>代表实例</span><span>大西洋中脊</span></div>
+          </div>
+          <p class="layer-desc" id="plateDesc">两个板块背向运动、地幔物质上涌填补空隙，形成新的洋壳。洋中脊便是这种边界，东非大裂谷则是大陆内部的张裂雏形。</p>
+        </div>
+      </div>
+
+      <div class="badge-section">
+        <div class="badge-label">中国所处的板块环境</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>欧亚板块（主体）</span>
+          <span class="badge-pill"><span class="dot"></span>印度板块（南缘碰撞）</span>
+          <span class="badge-pill"><span class="dot"></span>太平洋板块（东侧俯冲）</span>
+          <span class="badge-pill"><span class="dot"></span>菲律宾海板块（东南）</span>
+        </div>
+      </div>
+
+      <span class="media-kicker">动画演示 · 转换边界</span>
+      <figure class="media-figure">
+        <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="转换断层（走滑断层）运动动画">
+          <source src="assets/media/iris_plate_transform.mp4" type="video/mp4" />
+        </video>
+        <figcaption class="media-caption">转换断层（走滑断层）中两盘沿断层水平错动——如美国圣安德烈亚斯断层。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a>（Incorporated Research Institutions for Seismology, www.iris.edu）</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ====== 第九课 · 矿物、岩石与岩石循环 ====== -->
+  <section class="section" id="rocks">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第九课 · 组成地壳的物质</p>
+          <h2 class="section-title">岩石的<em>前世今生</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        岩石是矿物的天然集合体。按形成方式可分为三大类，它们在内动力与外动力共同作用下不断转化，构成"岩石循环"。点击下图或图例，了解每种岩石的来历。
+      </p>
+
+      <div class="earth-panel">
+        <div class="earth-diagram-wrap">
+          <svg class="explore-diagram" viewBox="0 0 320 300" aria-label="岩石循环示意图">
+            <path d="M160,212 C122,176 122,128 150,96" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rArrow)" />
+            <path d="M212,150 C252,150 252,212 204,226" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rArrow)" />
+            <path d="M108,150 C68,150 68,212 108,226" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rArrow)" />
+            <path d="M150,96 C190,128 202,158 202,182" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rArrow)" />
+            <circle class="explore-node" data-rock="cycle" cx="160" cy="248" r="26" fill="var(--earth-outer)" tabindex="0" role="button" aria-label="岩石循环" />
+            <text x="160" y="252" text-anchor="middle" class="diag-label">岩浆</text>
+            <circle class="explore-node active" data-rock="igneous" cx="160" cy="68" r="30" fill="var(--earth-crust)" tabindex="0" role="button" aria-label="岩浆岩" />
+            <text x="160" y="72" text-anchor="middle" class="diag-label">岩浆岩</text>
+            <circle class="explore-node" data-rock="sedimentary" cx="258" cy="168" r="30" fill="var(--earth-upper)" tabindex="0" role="button" aria-label="沉积岩" />
+            <text x="258" y="172" text-anchor="middle" class="diag-label">沉积岩</text>
+            <circle class="explore-node" data-rock="metamorphic" cx="62" cy="168" r="30" fill="var(--earth-lower)" tabindex="0" role="button" aria-label="变质岩" />
+            <text x="62" y="172" text-anchor="middle" class="diag-label">变质岩</text>
+            <defs>
+              <marker id="rArrow" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0,0 L7,4.5 L0,9 Z" fill="var(--muted)" /></marker>
+            </defs>
+          </svg>
+
+          <div class="earth-legend">
+            <button class="leg-item active" data-rock="igneous">岩浆岩</button>
+            <button class="leg-item" data-rock="sedimentary">沉积岩</button>
+            <button class="leg-item" data-rock="metamorphic">变质岩</button>
+            <button class="leg-item" data-rock="cycle">岩石循环</button>
+          </div>
+        </div>
+
+        <div class="earth-info" id="rockInfo">
+          <h3 id="rockName">岩浆岩（火成岩）</h3>
+          <div class="layer-stats" id="rockStats">
+            <div class="stat-row"><span>形成</span><span>岩浆冷却凝固</span></div>
+            <div class="stat-row"><span>分类</span><span>侵入岩 / 喷出岩</span></div>
+            <div class="stat-row"><span>代表</span><span>花岗岩、玄武岩</span></div>
+          </div>
+          <p class="layer-desc" id="rockDesc">岩浆在地下缓慢冷却形成侵入岩（如花岗岩，晶体粗大），喷溢出地表快速冷却则形成喷出岩（如玄武岩，细粒或具气孔）。</p>
+        </div>
+      </div>
+
+      <div class="badge-section">
+        <div class="badge-label">常见造岩矿物</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>石英</span>
+          <span class="badge-pill"><span class="dot"></span>长石</span>
+          <span class="badge-pill"><span class="dot"></span>云母</span>
+          <span class="badge-pill"><span class="dot"></span>角闪石</span>
+          <span class="badge-pill"><span class="dot"></span>方解石</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 第十课 · 地震学基础 ====== -->
+  <section class="section" id="seismo">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第十课 · 认识一次地震</p>
+          <h2 class="section-title">震级、烈度<em>与定位</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        每当一次地震发生，科学家关心的不仅是"多大"，还有"在哪里""破坏多强"。这些答案，藏在震源、震级、烈度与台站记录之中。
+      </p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">◎</div>
+          <h3>震源 · 震中 · 震源深度</h3>
+          <p>震源是地下岩层开始破裂的点，其正上方地表称为震中；震源越浅（尤其 &lt;70 km 的浅源地震），地表破坏往往越强烈。</p>
+          <span class="tag">基本概念</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⇅</div>
+          <h3>震级 vs 烈度</h3>
+          <p>震级表示一次地震释放的能量（里氏或矩震级 Mw），一次地震只有一个震级；烈度表示某地的破坏程度，随距离衰减，各地不同。</p>
+          <span class="tag">易混淆</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⊕</div>
+          <h3>如何给地震定位</h3>
+          <p>至少三个地震台记录到地震波到时差，依波速换算出距离，三个球面交汇即可确定震源。现代台网可在震后秒级定位。</p>
+          <span class="tag">台网</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>震级每 +1 级</h3>
+          <div class="card-value">能量 ×≈ 32</div>
+          <p>震级每增大 1 级，释放能量约增 32 倍；M8.0 比 M6.0 能量高约 1000 倍，破坏力天差地别。</p>
+          <span class="tag">能量尺度</span>
+        </div>
+      </div>
+
+      <div class="energy-panel">
+        <div class="badge-label">相对释放能量（以 M5 为基准 1，条形为示意）</div>
+        <div class="energy-row"><span class="energy-tag">M5</span><div class="energy-track"><div class="energy-bar" style="width:4%"></div></div><span class="energy-num">1×</span></div>
+        <div class="energy-row"><span class="energy-tag">M6</span><div class="energy-track"><div class="energy-bar" style="width:9%"></div></div><span class="energy-num">32×</span></div>
+        <div class="energy-row"><span class="energy-tag">M7</span><div class="energy-track"><div class="energy-bar" style="width:34%"></div></div><span class="energy-num">1,024×</span></div>
+        <div class="energy-row"><span class="energy-tag">M8</span><div class="energy-track"><div class="energy-bar" style="width:100%"></div></div><span class="energy-num">32,768×</span></div>
+      </div>
+
+      <span class="media-kicker">动画演示 · 地震波与定位</span>
+      <div class="media-grid">
+        <figure class="media-figure">
+          <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="单台站记录的 P 波、S 波与面波动画">
+            <source src="assets/media/iris_seismo_1station.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="media-caption">同一台站依次记录到 P 波（推挤）、S 波（剪切）与面波（滚动），据此可判断震中距离。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a></figcaption>
+        </figure>
+        <figure class="media-figure">
+          <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="四台站地震台网记录同一次地震动画">
+            <source src="assets/media/iris_seismo_4station.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="media-caption">至少三个台站记录到波到时差，依波速换算距离、球面交汇即可定位震源。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 第十一课 · 地质年代与地球演化 ====== -->
+  <section class="section" id="timescale">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第十一课 · 把时间拉长</p>
+          <h2 class="section-title">地球的<em>编年史</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        地球约 46 亿岁。地质学家用"地质年代表"为漫长历史分章节——从宙、代到纪、世，并用放射性同位素（呼应第六课测年法）为岩石定年。点击时间条或图例，了解各个宙。
+      </p>
+
+      <div class="earth-panel">
+        <div class="earth-diagram-wrap">
+          <svg class="explore-diagram" viewBox="0 0 320 90" aria-label="地质年代表">
+            <rect class="explore-node active" data-era="hadean" x="0" y="20" width="44" height="50" rx="4" fill="var(--earth-inner)" opacity="0.85" tabindex="0" role="button" aria-label="冥古宙" />
+            <rect class="explore-node" data-era="archean" x="44" y="20" width="96" height="50" rx="4" fill="var(--earth-outer)" opacity="0.85" tabindex="0" role="button" aria-label="太古宙" />
+            <rect class="explore-node" data-era="proterozoic" x="140" y="20" width="141" height="50" rx="4" fill="var(--earth-upper)" opacity="0.85" tabindex="0" role="button" aria-label="元古宙" />
+            <rect class="explore-node" data-era="phanerozoic" x="281" y="20" width="39" height="50" rx="4" fill="var(--earth-crust)" opacity="0.9" tabindex="0" role="button" aria-label="显生宙" />
+            <text x="22" y="49" text-anchor="middle" class="diag-label">冥古</text>
+            <text x="92" y="49" text-anchor="middle" class="diag-label">太古</text>
+            <text x="210" y="49" text-anchor="middle" class="diag-label">元古</text>
+            <text x="300" y="49" text-anchor="middle" class="diag-label">显生</text>
+          </svg>
+
+          <div class="earth-legend">
+            <button class="leg-item active" data-era="hadean">冥古宙</button>
+            <button class="leg-item" data-era="archean">太古宙</button>
+            <button class="leg-item" data-era="proterozoic">元古宙</button>
+            <button class="leg-item" data-era="phanerozoic">显生宙</button>
+          </div>
+        </div>
+
+        <div class="earth-info" id="timeInfo">
+          <h3 id="timeName">冥古宙</h3>
+          <div class="layer-stats" id="timeStats">
+            <div class="stat-row"><span>时间范围</span><span>~46–40 亿年前</span></div>
+            <div class="stat-row"><span>地球状态</span><span>炽热、多撞击</span></div>
+          </div>
+          <p class="layer-desc" id="timeDesc">地球刚形成，表面熔融、陨石频繁撞击（后期重轰炸期），原生大气与海洋开始孕育，尚未留下生命痕迹。</p>
+        </div>
+      </div>
+
+      <div class="badge-section">
+        <div class="badge-label">关键界线年龄</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>寒武纪底 5.41 亿年</span>
+          <span class="badge-pill"><span class="dot"></span>二叠纪末大灭绝 2.52 亿年</span>
+          <span class="badge-pill"><span class="dot"></span>白垩纪末 6,600 万年</span>
+          <span class="badge-pill"><span class="dot"></span>人类出现 258 万年前</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 第十二课 · 地球物理勘探 ====== -->
+  <section class="section" id="geophysics">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第十二课 · 给地球做 CT</p>
+          <h2 class="section-title">透视地球的<em>四种手段</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        除了第六课的卫星与大地测量，地球物理学家还利用岩石在密度、磁性、电性与波速上的差异，给地下"拍 CT"——这就是四大地球物理勘探方法。
+      </p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">◍</div>
+          <h3>重力勘探</h3>
+          <div class="card-value">探测密度</div>
+          <p>地下密度差异会引起重力微小变化，通过测量重力异常可寻找矿藏、油气，并研究地壳结构。</p>
+          <span class="tag">密度</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⊜</div>
+          <h3>磁法勘探</h3>
+          <div class="card-value">探测磁性</div>
+          <p>含铁磁性矿体改变局部磁场，磁法广泛用于找铁矿、划分断裂带，甚至用于考古探物。</p>
+          <span class="tag">磁性</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⌁</div>
+          <h3>电法勘探</h3>
+          <div class="card-value">探测电性</div>
+          <p>不同岩层电阻率不同，向地下供电并测量电位分布，可用于找水、找矿与工程勘察。</p>
+          <span class="tag">电性</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">∿</div>
+          <h3>地震勘探</h3>
+          <div class="card-value">探测波速</div>
+          <p>用人工震源激发地震波，根据反射或折射波成像地下结构，是油气勘探的主力手段。</p>
+          <span class="tag">波速</span>
+        </div>
+      </div>
+
+      <div class="badge-section">
+        <div class="badge-label">典型应用场景</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>找矿</span>
+          <span class="badge-pill"><span class="dot"></span>找水</span>
+          <span class="badge-pill"><span class="dot"></span>油气勘探</span>
+          <span class="badge-pill"><span class="dot"></span>工程勘察</span>
+          <span class="badge-pill"><span class="dot"></span>环境监测</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 第十三课 · 地表过程与地质灾害 ====== -->
+  <section class="section" id="hazards">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">第十三课 · 塑造地表的力量</p>
+          <h2 class="section-title">风、水与<em>地质灾害</em></h2>
+        </div>
+      </div>
+      <p class="section-body">
+        地球表面既被内动力撕扯，也被外动力雕琢。风化、侵蚀、搬运、沉积日复一日改造山川；当这些力量失控，便成为威胁人类的地质灾害。
+      </p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">❄</div>
+          <h3>风化作用</h3>
+          <p>岩石在温度变化、水、空气与生物作用下原地崩解破裂，是外动力地质作用的第一步。</p>
+          <span class="tag">物理 / 化学 / 生物</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌊</div>
+          <h3>侵蚀与搬运</h3>
+          <p>河流、冰川与风把风化产物搬离原地，雕刻出峡谷、河谷与各种地貌形态。</p>
+          <span class="tag">河流 / 冰川 / 风</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⏚</div>
+          <h3>沉积作用</h3>
+          <p>当搬运能力减弱，泥沙碎石堆积下来，形成冲积平原、三角洲与泛滥盆地。</p>
+          <span class="tag">平原 / 三角洲</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚠</div>
+          <h3>地质灾害</h3>
+          <p>滑坡、泥石流、地面沉降、地裂缝常由强降雨或人类活动触发，与地震次生灾害密切相关。</p>
+          <span class="tag">防灾</span>
+        </div>
+      </div>
+
+      <div class="badge-section">
+        <div class="badge-label">防灾要点</div>
+        <div class="badge-grid">
+          <span class="badge-pill"><span class="dot"></span>远离陡坡</span>
+          <span class="badge-pill"><span class="dot"></span>警惕暴雨</span>
+          <span class="badge-pill"><span class="dot"></span>识别前兆</span>
+          <span class="badge-pill"><span class="dot"></span>有序避险</span>
+        </div>
+      </div>
+
+      <span class="media-kicker">动画演示 · 海啸如何生成</span>
+      <figure class="media-figure">
+        <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="汇聚边界俯冲引发海啸的动画">
+          <source src="assets/media/iris_plate_convergent.mp4" type="video/mp4" />
+        </video>
+        <figcaption class="media-caption">汇聚边界处，密度大的洋壳俯冲到陆壳之下，断层闭锁—弹性回跳的突然错动可抬升海底、激发海啸。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a>（Incorporated Research Institutions for Seismology, www.iris.edu）</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- Quiz Section -->
   <section class="section" id="quiz">
     <div class="container">
       <div class="section-header">
         <div>
-          <p class="section-kicker">第九课 · 检验成果</p>
+          <p class="section-kicker">第十四课 · 检验成果</p>
           <h2 class="section-title">你掌握了<em>多少？</em></h2>
         </div>
       </div>
@@ -505,6 +976,12 @@
             <a href="#volcano">火山研究</a>
             <a href="#methods">研究方法</a>
             <a href="#cases">案例研究</a>
+            <a href="#plate">板块构造</a>
+            <a href="#rocks">矿物岩石</a>
+            <a href="#seismo">地震学基础</a>
+            <a href="#timescale">地质年代</a>
+            <a href="#geophysics">地球物理</a>
+            <a href="#hazards">地质灾害</a>
             <a href="#quiz">科普问答</a>
           </div>
         </div>

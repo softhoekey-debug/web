@@ -27,11 +27,38 @@ document.addEventListener('DOMContentLoaded', function () {
   initEarthLayers();
   initWaveDemo();
   initCaseTabs();
+  initExplorer({
+    nodesSel: '.explore-node[data-boundary]',
+    legendSel: '.leg-item[data-boundary]',
+    data: plateData,
+    attr: 'data-boundary',
+    idName: 'plateName',
+    idStats: 'plateStats',
+    idDesc: 'plateDesc'
+  });
+  initExplorer({
+    nodesSel: '.explore-node[data-rock]',
+    legendSel: '.leg-item[data-rock]',
+    data: rockData,
+    attr: 'data-rock',
+    idName: 'rockName',
+    idStats: 'rockStats',
+    idDesc: 'rockDesc'
+  });
+  initExplorer({
+    nodesSel: '.explore-node[data-era]',
+    legendSel: '.leg-item[data-era]',
+    data: timeData,
+    attr: 'data-era',
+    idName: 'timeName',
+    idStats: 'timeStats',
+    idDesc: 'timeDesc'
+  });
   initQuiz();
   initThemeToggle();
   initReadingProgress();
   initBackToTop();
-  initMobileMenu();
+  initNav();
 });
 
 /* ================================================================ */
@@ -208,6 +235,122 @@ function initEarthLayers() {
     l.addEventListener('click', function () { setActive(l.getAttribute('data-layer')); });
   });
 }
+
+/* ================================================================ */
+/*  通用探索器（板块 / 岩石 / 年代 数据驱动切换）                     */
+/* ================================================================ */
+function initExplorer(opts) {
+  var nodes = document.querySelectorAll(opts.nodesSel);
+  var legs = document.querySelectorAll(opts.legendSel);
+  var nameEl = document.getElementById(opts.idName);
+  var statsEl = document.getElementById(opts.idStats);
+  var descEl = document.getElementById(opts.idDesc);
+
+  if (!nodes.length || !legs.length || !nameEl || !statsEl || !descEl) return;
+
+  function setActive(key) {
+    var d = opts.data[key];
+    if (!d) return;
+
+    nodes.forEach(function (n) {
+      n.classList.toggle('active', n.getAttribute(opts.attr) === key);
+    });
+    legs.forEach(function (l) {
+      l.classList.toggle('active', l.getAttribute(opts.attr) === key);
+    });
+
+    nameEl.textContent = d.name;
+    statsEl.innerHTML = d.stats.map(function (s) {
+      return '<div class="stat-row"><span>' + s[0] + '</span><span>' + s[1] + '</span></div>';
+    }).join('');
+    descEl.textContent = d.desc;
+  }
+
+  nodes.forEach(function (n) {
+    n.addEventListener('click', function () { setActive(n.getAttribute(opts.attr)); });
+    n.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setActive(n.getAttribute(opts.attr));
+      }
+    });
+  });
+  legs.forEach(function (l) {
+    l.addEventListener('click', function () { setActive(l.getAttribute(opts.attr)); });
+  });
+}
+
+/* ---- 板块边界数据 ---- */
+var plateData = {
+  divergent: {
+    name: '离散边界',
+    stats: [['运动方式', '张裂、背离'], ['典型地形', '洋中脊、裂谷'], ['代表实例', '大西洋中脊']],
+    desc: '两个板块背向运动、地幔物质上涌填补空隙，形成新的洋壳。洋中脊便是这种边界，东非大裂谷则是大陆内部的张裂雏形。'
+  },
+  convergent: {
+    name: '汇聚边界',
+    stats: [['运动方式', '相互挤压'], ['类型', '俯冲 / 碰撞'], ['代表实例', '环太平洋、喜马拉雅']],
+    desc: '板块相向运动：洋壳俯冲到大陆或另一洋壳之下（俯冲带，多火山地震），或大陆与大陆碰撞隆升（如印度—欧亚碰撞形成喜马拉雅）。'
+  },
+  transform: {
+    name: '转换边界',
+    stats: [['运动方式', '水平错动'], ['典型地形', '转换断层'], ['代表实例', '圣安德烈亚斯断层']],
+    desc: '两板块沿断层水平错动、互不增减面积，地震多沿断层集中发生。美国圣安德烈亚斯断层是经典代表。'
+  },
+  drive: {
+    name: '板块驱动力',
+    stats: [['来源', '地幔对流'], ['机制', '热升冷降牵动板块'], ['速率', '每年数厘米']],
+    desc: '地幔受热不均产生对流：高温物质上升、冷却物质下沉，像传送带一样牵动上方板块缓慢移动，速率约每年几厘米。'
+  }
+};
+
+/* ---- 岩石循环数据 ---- */
+var rockData = {
+  igneous: {
+    name: '岩浆岩（火成岩）',
+    stats: [['形成', '岩浆冷却凝固'], ['分类', '侵入岩 / 喷出岩'], ['代表', '花岗岩、玄武岩']],
+    desc: '岩浆在地下缓慢冷却形成侵入岩（如花岗岩，晶体粗大），喷溢出地表快速冷却则形成喷出岩（如玄武岩，细粒或具气孔）。'
+  },
+  sedimentary: {
+    name: '沉积岩',
+    stats: [['形成', '风化—沉积—固结'], ['分类', '碎屑 / 化学 / 生物'], ['代表', '砂岩、石灰岩']],
+    desc: '先成岩石经风化破碎，被水、风等搬运沉积，再压实固结成岩。层理是沉积岩的典型特征，常含化石。'
+  },
+  metamorphic: {
+    name: '变质岩',
+    stats: [['形成', '高温高压变质'], ['分类', '区域 / 接触变质'], ['代表', '大理岩、片麻岩']],
+    desc: '已有岩石在地壳深处经受高温高压，矿物重结晶或定向排列而形成，如石灰岩变大理岩、页岩变板岩。'
+  },
+  cycle: {
+    name: '岩石循环',
+    stats: [['内动力', '岩浆、变质'], ['外动力', '风化、侵蚀、沉积'], ['本质', '物质不断转化']],
+    desc: '三大岩类并非固定：岩浆冷凝成岩浆岩，经外动力改造成沉积岩，深埋变质成变质岩，最终可重熔再生为岩浆——周而复始。'
+  }
+};
+
+/* ---- 地质年代数据 ---- */
+var timeData = {
+  hadean: {
+    name: '冥古宙',
+    stats: [['时间', '~46–40 亿年前'], ['地球状态', '炽热、多撞击'], ['生命', '尚无记录']],
+    desc: '地球刚形成，表面熔融、陨石频繁撞击（后期重轰炸期），原生大气与海洋开始孕育，尚未留下生命痕迹。'
+  },
+  archean: {
+    name: '太古宙',
+    stats: [['时间', '~40–25 亿年前'], ['岩石', '最古老陆壳'], ['生命', '原核生物']],
+    desc: '出现地球上最古老的岩石与稳定陆块，原始生命（原核生物）诞生，大气仍几乎无氧。'
+  },
+  proterozoic: {
+    name: '元古宙',
+    stats: [['时间', '~25–5.41 亿年前'], ['大事', '大气充氧'], ['生命', '真核生物']],
+    desc: '蓝藻光合作用使大气逐渐充氧，真核生物出现，并经历"雪球地球"冰期与埃迪卡拉纪软躯体生物。'
+  },
+  phanerozoic: {
+    name: '显生宙',
+    stats: [['时间', '5.41 亿年前–今'], ['特征', '生命大繁荣'], ['分代', '古生/中生/新生']],
+    desc: '显生宙意为"看得见生命的时代"：寒武纪生命大爆发、恐龙称霸的中生代，以及哺乳动物与人类崛起的新生代。'
+  }
+};
 
 /* ================================================================ */
 /*  地震波 Canvas 动画 —— HiDPI 修复 + 发光特效                      */
@@ -424,6 +567,81 @@ var quizQuestions = [
     correct: 1,
     feedback:
       'SCI 收录与期刊质量无必然关联。《地震地质》被 EI、CSCD 等重要数据库收录，是高质量的 T1 级期刊。'
+  },
+  {
+    question: '喜马拉雅山脉主要由哪类板块边界形成？',
+    options: ['离散边界', '汇聚碰撞边界', '转换边界', '离散 + 转换'],
+    correct: 1,
+    feedback:
+      '印度板块与欧亚板块的汇聚碰撞使地壳缩短隆升，形成喜马拉雅山脉与青藏高原，属典型的汇聚碰撞边界。'
+  },
+  {
+    question: '三大岩类中，由岩浆冷却凝固形成的是？',
+    options: ['岩浆岩', '沉积岩', '变质岩', '都不是'],
+    correct: 0,
+    feedback:
+      '岩浆岩（火成岩）由岩浆冷却凝固而成；沉积岩由风化产物沉积固结形成，变质岩由高温高压变质形成。'
+  },
+  {
+    question: '沉积岩最典型的特征是？',
+    options: ['气孔构造', '层理与化石', '片理构造', '块状无层理'],
+    correct: 1,
+    feedback:
+      '沉积岩常具层理构造，并可能保存化石，是重建古环境的重要依据。'
+  },
+  {
+    question: '关于震级与烈度，正确的是？',
+    options: [
+      '一次地震可有多个震级',
+      '烈度随地而异、随距离衰减',
+      '震级表示某地破坏程度',
+      '二者完全相同'
+    ],
+    correct: 1,
+    feedback:
+      '震级表示一次地震释放的能量（只有一个），烈度表示某地破坏程度，随震中距增大而衰减，各地不同。'
+  },
+  {
+    question: '震级每增大 1 级，释放能量约增大多少倍？',
+    options: ['2 倍', '10 倍', '32 倍', '100 倍'],
+    correct: 2,
+    feedback:
+      '震级每增大 1 级，能量约增 32 倍；M8.0 比 M6.0 释放的能量高约 1000 倍。'
+  },
+  {
+    question: '地质年代中"显生宙"的主要特征是？',
+    options: ['几乎没有生命', '生命大爆发与繁盛', '只有微生物', '全部为冰期'],
+    correct: 1,
+    feedback:
+      '显生宙意为"看得见生命的时代"，以寒武纪生命大爆发为起点，生物快速多样化并繁盛至今。'
+  },
+  {
+    question: '地震勘探主要利用岩石的什么差异来成像？',
+    options: ['密度', '磁性', '电性', '波速'],
+    correct: 3,
+    feedback:
+      '地震勘探用人工震源激发地震波，依据不同岩层的波速与反射/折射特征对地下结构成像，是油气勘探的主力手段。'
+  },
+  {
+    question: '下列哪种属于外动力引发的地质灾害？',
+    options: ['火山喷发', '地震', '滑坡、泥石流', '地幔对流'],
+    correct: 2,
+    feedback:
+      '滑坡、泥石流多由强降雨或人类活动触发，属外动力地质灾害；火山喷发与地震以内动力为主。'
+  },
+  {
+    question: '美国圣安德烈亚斯断层属于哪类板块边界？',
+    options: ['离散边界', '汇聚边界', '转换（走滑）边界', '俯冲带'],
+    correct: 2,
+    feedback:
+      '圣安德烈亚斯断层是太平洋板块与北美板块之间的转换边界，两盘水平错动，地震沿断层集中发生。'
+  },
+  {
+    question: '给断层活动或沉积物定年，常用下列哪种方法？',
+    options: ['¹⁴C 碳-14', '光释光 OSL', '宇宙成因核素', '以上都是'],
+    correct: 3,
+    feedback:
+      '¹⁴C、光释光（OSL）、宇宙成因核素等都是《地震地质》中常用的测年手段，可回答"事件发生在多少年前"。'
   }
 ];
 
@@ -641,13 +859,15 @@ function initBackToTop() {
 }
 
 /* ================================================================ */
-/*  移动端菜单开关                                                    */
+/*  导航：移动端菜单开关 + 二级子菜单展开                              */
 /* ================================================================ */
-function initMobileMenu() {
+function initNav() {
   var toggle = document.querySelector('.menu-toggle');
   var nav = document.querySelector('.nav');
 
   if (!toggle || !nav) return;
+
+  var subToggles = nav.querySelectorAll('.nav-toggle');
 
   function openMenu() {
     nav.classList.add('open');
@@ -659,6 +879,12 @@ function initMobileMenu() {
     nav.classList.remove('open');
     toggle.setAttribute('aria-expanded', 'false');
     toggle.classList.remove('active');
+    // 关闭整个菜单时一并收起已展开的子菜单
+    nav.querySelectorAll('.nav-item.has-sub.open').forEach(function (item) {
+      item.classList.remove('open');
+      var t = item.querySelector('.nav-toggle');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    });
   }
 
   toggle.setAttribute('aria-expanded', 'false');
@@ -669,8 +895,20 @@ function initMobileMenu() {
     nav.classList.contains('open') ? closeMenu() : openMenu();
   });
 
+  // 二级菜单按钮：点击展开/收起，桌面与移动通用（移动端为手风琴）
+  subToggles.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var item = btn.closest('.nav-item.has-sub');
+      if (!item) return;
+      var isOpen = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
+  // 点击任意叶子链接后关闭整个菜单
   nav.addEventListener('click', function (e) {
-    if (e.target.tagName === 'A') closeMenu();
+    if (e.target.closest('a')) closeMenu();
   });
 
   document.addEventListener('click', function (e) {
