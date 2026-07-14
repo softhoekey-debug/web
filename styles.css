@@ -305,7 +305,7 @@ section:last-child {
 /* --------------------------------------------- */
 .section {
   padding: var(--space-3xl) 0;
-  scroll-margin-top: 4rem;
+  scroll-margin-top: 5.5rem;
 }
 
 .section-header {
