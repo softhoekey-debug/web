@@ -28,6 +28,8 @@
   --earth-lower:       #92400e;
   --earth-outer:       #fbbf24;
   --earth-inner:       #f59e0b;
+  /* 激活圈层的高亮色（仅改变颜色，不改变大小/形状） */
+  --earth-active:      #ffce4f;
 
   /* 板块边界示意图专用色板（与圈层色分离，避免语义混淆） */
   --plate-a:           #c8772f;  /* 板块 A（如洋壳/左侧块体） */
@@ -97,6 +99,8 @@
   --earth-lower:       #b8551a;
   --earth-outer:       #facc15;
   --earth-inner:       #f59e0b;
+  /* 激活圈层的高亮色（深色模式更亮，保证对比） */
+  --earth-active:      #ffd166;
 
   /* 板块边界示意图专用色板（深色模式提高对比度） */
   --plate-a:           #d98a3a;
@@ -762,11 +766,22 @@ section:last-child {
 
 .layer-ring {
   cursor: pointer;
-  transition: all var(--dur-slow) var(--ease-out);
+  transition:
+    fill       var(--dur-slow) var(--ease-out),
+    stroke     var(--dur-slow) var(--ease-out),
+    filter     var(--dur-slow) var(--ease-out),
+    opacity    var(--dur-fast) ease;
   transform-origin: center;
 }
 .layer-ring:hover { opacity: 0.8; }
-.layer-ring.active { filter: brightness(1.2); stroke-width: 12px; }
+/* 激活圈层：仅改变颜色（描边环改 stroke，实心核改 fill），大小/形状完全不变；
+   外加一圈极淡的辉光，让高亮在手机小图上也清晰可辨 */
+.layer-ring.active { filter: drop-shadow(0 0 4px var(--earth-active)); }
+.layer-ring.active[data-layer="crust"],
+.layer-ring.active[data-layer="upper"],
+.layer-ring.active[data-layer="lower"] { stroke: var(--earth-active); }
+.layer-ring.active[data-layer="outer"],
+.layer-ring.active[data-layer="inner"] { fill:   var(--earth-active); }
 
 .earth-legend {
   display: flex;
