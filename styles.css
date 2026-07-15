@@ -40,10 +40,6 @@
   --motion:            #0b5fa5;  /* 运动/力箭头 */
   --fault:             #d6432f;  /* 断层线 */
 
-  /* 地震波波形颜色（独立变量，可微调对比度） */
-  --wave-p:            var(--accent);
-  --wave-s:            #d97706;
-  --wave-surface:      #92400e;
 
   /* ---- 间距 ---- */
   --space-xs:          0.25rem;
@@ -111,10 +107,6 @@
   --motion:            #5ab0ff;
   --fault:             #ff7355;
 
-  /* 波形颜色 */
-  --wave-p:            var(--accent);
-  --wave-s:            #ef9720;
-  --wave-surface:      #b8551a;
 }
 
 /* --------------------------------------------- */
@@ -843,80 +835,6 @@ section:last-child {
   line-height: 1.7;
 }
 
-/* --------------------------------------------- */
-/*  12. Seismic Wave Panel —— 语义化波形颜色      */
-/* --------------------------------------------- */
-.wave-panel {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-2xl);
-  box-shadow: var(--shadow-sm);
-}
-
-.wave-controls {
-  display: flex;
-  gap: var(--space-sm);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-lg);
-}
-
-.wave-btn {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--border);
-  background-color: var(--bg);
-  color: var(--fg);
-  cursor: pointer;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
-  transition:
-    border-color var(--dur-fast) ease,
-    color       var(--dur-fast) ease;
-}
-.wave-btn:hover,
-.wave-btn.active {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.wave-btn.stop:hover {
-  border-color: var(--muted);
-  color: var(--muted);
-}
-
-#waveCanvas {
-  width: 100%;
-  height: 200px;
-  background-color: var(--fg);
-  display: block;
-  border-radius: var(--radius-sm);
-}
-
-.wave-legend {
-  display: flex;
-  gap: var(--space-lg);
-  flex-wrap: wrap;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: var(--space-md);
-}
-
-.swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 4px;
-  vertical-align: middle;
-  border-radius: 2px;
-}
-
-/* 波形色块使用语义化变量 */
-.swatch-p       { background-color: var(--wave-p); }
-.swatch-s       { background-color: var(--wave-s); }
-.swatch-surface { background-color: var(--wave-surface); }
 
 /* --------------------------------------------- */
 /*  13. Tag Component                             */
@@ -1399,7 +1317,6 @@ section:last-child {
   .card-grid { gap: var(--space-md); }
   .card-grid .card { padding: var(--space-lg); }
   .earth-panel,
-  .wave-panel,
   .case-panel.active,
   .quiz-wrap { padding: var(--space-xl); }
   .footer-grid { gap: var(--space-xl); }
