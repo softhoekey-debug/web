@@ -136,13 +136,35 @@ function initSeismograph() {
   /**
    * Classic Seismograph Drawing Loop
    */
+  // classic drawing speed — faster for chaotic bursts
+  var rafId = null;
+
   function animateDrawing() {
-    offset += config.wobbleSpeed; // Continuous oscillation along baseline
+    offset += config.wobbleSpeed;
     line.setAttribute('points', generatePoints(offset));
+    rafId = requestAnimationFrame(animateDrawing);
   }
 
-  // classic drawing speed — faster for chaotic bursts
-  setInterval(animateDrawing, 30);
+  function startAnim() {
+    if (rafId === null) rafId = requestAnimationFrame(animateDrawing);
+  }
+
+  function stopAnim() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
+  // Pause when hero scrolls off-screen (saves CPU/battery on mobile)
+  if ('IntersectionObserver' in window) {
+    var heroEl = line.closest('.hero');
+    if (heroEl) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { e.isIntersecting ? startAnim() : stopAnim(); });
+      }, { threshold: 0 }).observe(heroEl);
+    } else { startAnim(); }
+  } else { startAnim(); }
 }
 
 
@@ -361,16 +383,30 @@ function initCaseTabs() {
 
   if (!btns.length || !panels.length) return;
 
+  function activateTab(idx) {
+    btns.forEach(function (b) { b.classList.remove('active'); });
+    panels.forEach(function (p) { p.classList.remove('active'); });
+    var btn = document.querySelector('.case-btn[data-case="' + idx + '"]');
+    if (btn) { btn.classList.add('active'); btn.focus(); }
+    var target = document.querySelector(
+      '.case-panel[data-panel="' + idx + '"]'
+    );
+    if (target) target.classList.add('active');
+  }
+
   btns.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var idx = btn.getAttribute('data-case');
-      btns.forEach(function (b) { b.classList.remove('active'); });
-      panels.forEach(function (p) { p.classList.remove('active'); });
-      btn.classList.add('active');
-      var target = document.querySelector(
-        '.case-panel[data-panel="' + idx + '"]'
-      );
-      if (target) target.classList.add('active');
+      activateTab(btn.getAttribute('data-case'));
+    });
+    btn.addEventListener('keydown', function (e) {
+      var idx = parseInt(btn.getAttribute('data-case'), 10);
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        activateTab(String((idx + 1) % btns.length));
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        activateTab(String((idx - 1 + btns.length) % btns.length));
+      }
     });
   });
 }
@@ -540,21 +576,36 @@ function initQuiz() {
     updateProgress();
 
     var q = quizQuestions[currentQuestion];
-    var html = '<div class="quiz-q">' + q.question + '</div>';
-    html += '<div class="quiz-options">';
-    q.options.forEach(function (opt, i) {
-      html +=
-        '<button type="button" class="quiz-option" data-idx="' +
-        i +
-        '">' +
-        opt +
-        '</button>';
-    });
-    html += '</div>';
-    html += '<div class="quiz-feedback"></div>';
-    html += '<button type="button" class="quiz-next">下一题 →</button>';
 
-    quizArea.innerHTML = html;
+    // Build DOM nodes instead of innerHTML to prevent XSS
+    var qDiv = document.createElement('div');
+    qDiv.className = 'quiz-q';
+    qDiv.textContent = q.question;
+
+    var optsDiv = document.createElement('div');
+    optsDiv.className = 'quiz-options';
+    q.options.forEach(function (opt, i) {
+      var optBtn = document.createElement('button');
+      optBtn.type = 'button';
+      optBtn.className = 'quiz-option';
+      optBtn.setAttribute('data-idx', i);
+      optBtn.textContent = opt;
+      optsDiv.appendChild(optBtn);
+    });
+
+    var feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'quiz-feedback';
+
+    var nextBtnEl = document.createElement('button');
+    nextBtnEl.type = 'button';
+    nextBtnEl.className = 'quiz-next';
+    nextBtnEl.textContent = '下一题 →';
+
+    quizArea.innerHTML = '';
+    quizArea.appendChild(qDiv);
+    quizArea.appendChild(optsDiv);
+    quizArea.appendChild(feedbackDiv);
+    quizArea.appendChild(nextBtnEl);
 
     var feedbackEl = quizArea.querySelector('.quiz-feedback');
     var nextBtn = quizArea.querySelector('.quiz-next');

@@ -1,0 +1,17 @@
+{
+  "name": "地震地质科普",
+  "short_name": "地震地质",
+  "description": "面向高中生的地球科学科普教学课件，带你看懂地震、地质与火山的奥秘。",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b45309",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

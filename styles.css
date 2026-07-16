@@ -1480,7 +1480,7 @@ section:last-child {
   transform-origin: center;
 }
 .explore-node:hover { opacity: 0.85; }
-.explore-node.active { filter: brightness(1.12) drop-shadow(0 0 5px var(--accent)); }
+.explore-node.active { filter: drop-shadow(0 0 5px var(--accent)); }
 .explore-node:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;

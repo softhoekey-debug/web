@@ -3,12 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>地震地质期刊</title>
-  <link rel="manifest" href="../manifest.json" />
-  <link rel="icon" type="image/png" href="../icon-192.png" />
-  <link rel="apple-touch-icon" href="../icon-512-maskable.png" />
+  <title>地震地质期刊 | 科普教学课件</title>
+  <meta name="description" content="《地震地质》科普教学课件：面向高中生，以交互式动画和科普问答讲解地球构造、板块运动、地震波、火山与地质年代等地球科学知识。" />
+  <meta property="og:title" content="探秘《地震地质》科普教学课件" />
+  <meta property="og:description" content="覆盖地震学、地质构造、火山研究等领域的前沿学术期刊科普，汇聚地球科学领域的重要科研成果与最新发现。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="zh_CN" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#b45309" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#f59e0b" />
+  <script>
+    (function(){var t=localStorage.getItem('sac-theme')||'light';document.documentElement.dataset.theme=t;})();
+  </script>
   <link rel="stylesheet" href="styles.css" />
   <script src="app.js" defer></script>
 </head>
@@ -349,7 +357,7 @@
 
       <span class="media-kicker">动画演示 · 地震波</span>
       <figure class="media-figure">
-        <video class="media-clip" controls playsinline preload="metadata" aria-label="P 波、S 波与面波三种地震波的类型与振动形态动画" poster="assets/media/posters/waves.jpg">
+        <video class="media-clip" controls playsinline preload="metadata" loading="lazy" width="1280" height="720" aria-label="P 波、S 波与面波三种地震波的类型与振动形态动画" poster="assets/media/posters/waves.jpg">
           <source src="assets/media/waves.mp4" type="video/mp4" />
         </video>
         <figcaption class="media-caption">视频演示 P 波、S 波与面波三种主要地震波的传播方式与振动形态——P 波最快、S 波次之、面波最慢但破坏最强。</figcaption>
@@ -482,7 +490,7 @@
 
       <span class="media-kicker">动画演示 · 转换边界</span>
       <figure class="media-figure">
-        <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="转换断层（走滑断层）运动动画" poster="assets/media/posters/iris_plate_transform.jpg">
+        <video class="media-clip" autoplay loop muted playsinline preload="metadata" width="480" height="340" aria-label="转换断层（走滑断层）运动动画" poster="assets/media/posters/iris_plate_transform.jpg">
           <source src="assets/media/iris_plate_transform.mp4" type="video/mp4" />
         </video>
         <figcaption class="media-caption">转换断层（走滑断层）中两盘沿断层水平错动——如美国圣安德烈亚斯断层。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a>（Incorporated Research Institutions for Seismology, www.iris.edu）</figcaption>
@@ -567,10 +575,10 @@
       <div class="badge-section">
         <div class="badge-label">火山活动与地球系统</div>
         <div class="badge-grid">
-          <span class="badge-pill"><span class="dot"></span>背斜储油气</span>
-          <span class="badge-pill"><span class="dot"></span>向斜储水</span>
-          <span class="badge-pill"><span class="dot"></span>断层带地震</span>
-          <span class="badge-pill"><span class="dot"></span>矿产富集</span>
+          <span class="badge-pill"><span class="dot"></span>岩浆来源</span>
+          <span class="badge-pill"><span class="dot"></span>板块俯冲</span>
+          <span class="badge-pill"><span class="dot"></span>地幔热柱</span>
+          <span class="badge-pill"><span class="dot"></span>火山灾害</span>
         </div>
       </div>
     </div>
@@ -905,13 +913,13 @@
       <span class="media-kicker">动画演示 · 地震波与定位</span>
       <div class="media-grid">
         <figure class="media-figure">
-          <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="单台站记录的 P 波、S 波与面波动画" poster="assets/media/posters/iris_seismo_1station.jpg">
+          <video class="media-clip" autoplay loop muted playsinline preload="metadata" width="480" height="300" aria-label="单台站记录的 P 波、S 波与面波动画" poster="assets/media/posters/iris_seismo_1station.jpg">
             <source src="assets/media/iris_seismo_1station.mp4" type="video/mp4" />
           </video>
           <figcaption class="media-caption">同一台站依次记录到 P 波（推挤）、S 波（剪切）与面波（滚动），据此可判断震中距离。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a></figcaption>
         </figure>
         <figure class="media-figure">
-          <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="四台站地震台网记录同一次地震动画" poster="assets/media/posters/iris_seismo_4station.jpg">
+          <video class="media-clip" autoplay loop muted playsinline preload="metadata" width="480" height="340" aria-label="四台站地震台网记录同一次地震动画" poster="assets/media/posters/iris_seismo_4station.jpg">
             <source src="assets/media/iris_seismo_4station.mp4" type="video/mp4" />
           </video>
           <figcaption class="media-caption">至少三个台站记录到波到时差，依波速换算距离、球面交汇即可定位震源。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a></figcaption>
@@ -1026,7 +1034,7 @@
 
       <span class="media-kicker">动画演示 · 海啸如何生成</span>
       <figure class="media-figure">
-        <video class="media-clip" autoplay loop muted playsinline preload="metadata" aria-label="汇聚边界俯冲引发海啸的动画" poster="assets/media/posters/iris_plate_convergent.jpg">
+        <video class="media-clip" autoplay loop muted playsinline preload="metadata" width="480" height="320" aria-label="汇聚边界俯冲引发海啸的动画" poster="assets/media/posters/iris_plate_convergent.jpg">
           <source src="assets/media/iris_plate_convergent.mp4" type="video/mp4" />
         </video>
         <figcaption class="media-caption">汇聚边界处，密度大的洋壳俯冲到陆壳之下，断层闭锁—弹性回跳的突然错动可抬升海底、激发海啸。动画来源：<a href="https://www.iris.edu" target="_blank" rel="noopener noreferrer">IRIS</a>（Incorporated Research Institutions for Seismology, www.iris.edu）</figcaption>
